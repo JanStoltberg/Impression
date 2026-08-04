@@ -1,10 +1,10 @@
 :root {
-  --paper: #f5f3ec;
-  --paper-raised: #ffffff;
-  --ink: #1b1b17;
-  --ink-soft: #6b6a61;
-  --rule: #d8d5c9;
-  --accent: #2b4c7e;
+  --paper: #1c1e21;
+  --paper-raised: #26292d;
+  --ink: #ece8de;
+  --ink-soft: #9a9790;
+  --rule: #3d4045;
+  --accent: #b8975a;
   --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
   --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --sans: -apple-system, 'Segoe UI', Roboto, sans-serif;
