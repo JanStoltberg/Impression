@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import {
   loadLatestBriefing,
   groupByRegionAndTopic,
+  getSummary,
   REGION_LABELS,
   TOPIC_LABELS,
 } from '../lib/data.js';
@@ -45,13 +46,13 @@ const dateLabel = briefing
                 <a class="item__title" href={item.url} target="_blank" rel="noopener">
                   {item.title}
                 </a>
+                {getSummary(item) && <p class="item__summary">{getSummary(item)}</p>}
                 <p class="item__meta">
                   {item.source}
                   {item.published
                     ? ` · ${new Date(item.published).toLocaleDateString('de-DE')}`
                     : ''}
                 </p>
-                {item.editorial_summary && <p class="item__summary">{item.editorial_summary}</p>}
               </li>
             ))}
           </ol>

@@ -46,3 +46,32 @@ export function groupByRegionAndTopic(items) {
   }
   return groups;
 }
+
+const SUMMARY_MAX_LENGTH = 180;
+
+function stripHtml(raw) {
+  return raw
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function truncate(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  const cut = text.slice(0, maxLength);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : maxLength)}…`;
+}
+
+// Editorial-Zusammenfassung (Claude) hat Vorrang; ohne API-Key faellt das
+// auf eine bereinigte, gekuerzte Fassung der rohen Feed-Beschreibung zurueck,
+// damit unter jeder Schlagzeile immer eine kurze Einordnung steht.
+export function getSummary(item) {
+  if (item.editorial_summary) return item.editorial_summary;
+  if (!item.summary) return '';
+  return truncate(stripHtml(item.summary), SUMMARY_MAX_LENGTH);
+}
