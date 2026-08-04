@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import {
+  listBriefingDates,
+  loadBriefing,
+  groupByRegionAndTopic,
+  REGION_LABELS,
+  TOPIC_LABELS,
+} from '../../lib/data.js';
+
+export function getStaticPaths() {
+  return listBriefingDates().map((date) => ({ params: { date } }));
+}
+
+const { date } = Astro.params;
+const briefing = loadBriefing(date);
+const groups = briefing ? groupByRegionAndTopic(briefing.items) : {};
+
+const dateLabel = new Date(date).toLocaleDateString('de-DE', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title={`Briefing ${date} — Impression`}>
+  <section class="hero hero--compact">
+    <p class="hero__eyebrow"><a href={`${base}archiv/`}>← Archiv</a></p>
+    <h1 class="hero__date">{dateLabel}</h1>
+  </section>
+
+  {Object.entries(groups).map(([region, topics]) => (
+    <section class="region">
+      <h2 class="region__title">{REGION_LABELS[region] ?? region}</h2>
+      {Object.entries(topics).map(([topic, items]) => (
+        <div class="topic">
+          <h3 class="topic__title">{TOPIC_LABELS[topic] ?? topic}</h3>
+          <ol class="items">
+            {items.map((item) => (
+              <li class="item">
+                <a class="item__title" href={item.url} target="_blank" rel="noopener">
+                  {item.title}
+                </a>
+                <p class="item__meta">{item.source}</p>
+                {item.editorial_summary && <p class="item__summary">{item.editorial_summary}</p>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </section>
+  ))}
+</Layout>

@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { loadLatestBriefing, REGION_LABELS, TOPIC_LABELS } from '../../lib/data.js';
+
+export function getStaticPaths() {
+  return Object.keys(TOPIC_LABELS).map((topic) => ({ params: { topic } }));
+}
+
+const { topic } = Astro.params;
+const briefing = loadLatestBriefing();
+const items = briefing ? briefing.items.filter((i) => i.topic === topic) : [];
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title={`${TOPIC_LABELS[topic] ?? topic} — Impression`}>
+  <section class="hero hero--compact">
+    <p class="hero__eyebrow"><a href={base}>← Heute</a></p>
+    <h1 class="hero__date">{TOPIC_LABELS[topic] ?? topic}</h1>
+  </section>
+
+  {items.length === 0 && (
+    <p class="empty">Keine Artikel dieser Kategorie im aktuellen Briefing.</p>
+  )}
+
+  <ol class="items">
+    {items.map((item) => (
+      <li class="item">
+        <a class="item__title" href={item.url} target="_blank" rel="noopener">
+          {item.title}
+        </a>
+        <p class="item__meta">
+          {item.source} · {REGION_LABELS[item.region] ?? item.region}
+        </p>
+        {item.editorial_summary && <p class="item__summary">{item.editorial_summary}</p>}
+      </li>
+    ))}
+  </ol>
+</Layout>

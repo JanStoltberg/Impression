@@ -1,0 +1,16 @@
+# Node / Astro
+site/node_modules/
+site/dist/
+site/.astro/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Rohdaten sind Zwischenstand, nur data/briefings/ wird versioniert
+data/raw/
+
+# Sonstiges
+.DS_Store
+.env

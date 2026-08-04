@@ -1,0 +1,59 @@
+# Quellen fuer das Morning Briefing.
+#
+# region: "dach" | "international"
+# topic:  "adtech" | "marketing"  (frei erweiterbar, z.B. "markt", "kreativ")
+#
+# Zwei Feeds sind mit TODO markiert: die URL folgt der ueblichen WordPress-
+# bzw. CMS-Konvention, war zum Zeitpunkt der Erstellung aber nicht einzeln
+# verifizierbar. Einmal im Browser oeffnen und ggf. korrigieren.
+
+sources:
+  - name: HORIZONT
+    rss: https://www.horizont.net/news/feed/
+    region: dach
+    topic: marketing
+
+  - name: HORIZONT Tech
+    rss: https://www.horizont.net/news/feed/tech/
+    region: dach
+    topic: adtech
+
+  - name: W&V (alle Ressorts)
+    rss: https://www.wuv.de/view/rss/123
+    region: dach
+    topic: marketing
+
+  - name: W&V Performance & Analytics
+    rss: https://www.wuv.de/view/rss/114
+    region: dach
+    topic: adtech
+
+  - name: W&V KI & Tech
+    rss: https://www.wuv.de/view/rss/119
+    region: dach
+    topic: adtech
+
+  - name: ADZINE
+    rss: https://www.adzine.de/feed/  # TODO: URL verifizieren
+    region: dach
+    topic: adtech
+
+  - name: Digiday
+    rss: https://digiday.com/feed/
+    region: international
+    topic: marketing
+
+  - name: AdExchanger
+    rss: https://www.adexchanger.com/feed/
+    region: international
+    topic: adtech
+
+  - name: Adweek
+    rss: https://www.adweek.com/feed/
+    region: international
+    topic: marketing
+
+  - name: Ad Age
+    rss: https://adage.com/feed  # TODO: URL verifizieren, evtl. ueber adage.com/rss ersetzen
+    region: international
+    topic: marketing

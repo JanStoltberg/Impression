@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {
+  loadLatestBriefing,
+  groupByRegionAndTopic,
+  REGION_LABELS,
+  TOPIC_LABELS,
+} from '../lib/data.js';
+
+const briefing = loadLatestBriefing();
+const groups = briefing ? groupByRegionAndTopic(briefing.items) : {};
+
+const dateLabel = briefing
+  ? new Date(briefing.date).toLocaleDateString('de-DE', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+---
+
+<Layout title="Impression — Heutiges Briefing">
+  <section class="hero">
+    <p class="hero__eyebrow">Morning Briefing</p>
+    <h1 class="hero__date">{dateLabel ?? 'Noch kein Briefing vorhanden'}</h1>
+  </section>
+
+  {!briefing && (
+    <p class="empty">
+      Es liegt noch kein Briefing in <code>data/briefings/</code>. Erst
+      <code>ingest.py</code> und dann <code>curate.py</code> laufen lassen.
+    </p>
+  )}
+
+  {Object.entries(groups).map(([region, topics]) => (
+    <section class="region">
+      <h2 class="region__title">{REGION_LABELS[region] ?? region}</h2>
+      {Object.entries(topics).map(([topic, items]) => (
+        <div class="topic">
+          <h3 class="topic__title">{TOPIC_LABELS[topic] ?? topic}</h3>
+          <ol class="items">
+            {items.map((item) => (
+              <li class="item">
+                <a class="item__title" href={item.url} target="_blank" rel="noopener">
+                  {item.title}
+                </a>
+                <p class="item__meta">
+                  {item.source}
+                  {item.published
+                    ? ` · ${new Date(item.published).toLocaleDateString('de-DE')}`
+                    : ''}
+                </p>
+                {item.editorial_summary && <p class="item__summary">{item.editorial_summary}</p>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </section>
+  ))}
+</Layout>

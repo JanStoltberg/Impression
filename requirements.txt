@@ -1,0 +1,6 @@
+feedparser>=6.0
+PyYAML>=6.0
+
+# Optional: nur noetig, wenn ANTHROPIC_API_KEY gesetzt ist und curate.py
+# das LLM-gestuetzte Ranking + Editorial-Summaries nutzen soll.
+anthropic>=0.40
