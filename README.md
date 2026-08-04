@@ -2,7 +2,7 @@
 
 Kuratiert automatisch die wichtigsten Meldungen aus deinen Fachmedien
 (HORIZONT, W&V, ADZINE, Digiday, AdExchanger, Adweek, Ad Age ...) und
-veroeffentlicht sie als kleine Website auf GitHub Pages.
+veröffentlicht sie als kleine Website auf GitHub Pages.
 
 ```
 Feeds (RSS) → ingest.py → curate.py → data/briefings/*.json → Astro-Build → GitHub Pages
