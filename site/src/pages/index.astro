@@ -19,6 +19,10 @@ const dateLabel = briefing
       day: 'numeric',
     })
   : null;
+
+// Manuell gepflegter Einordnungstext fuers heutige Briefing. Leerer String
+// blendet die Box aus.
+const introText = '';
 ---
 
 <Layout title="Impression — Heutiges Briefing">
@@ -27,6 +31,13 @@ const dateLabel = briefing
     <h1 class="hero__date">{dateLabel ?? 'Noch kein Briefing vorhanden'}</h1>
   </section>
 
+  {introText && (
+    <section class="intro-box">
+      <p class="intro-box__label">Einordnung</p>
+      <p class="intro-box__text">{introText}</p>
+    </section>
+  )}
+
   {!briefing && (
     <p class="empty">
       Es liegt noch kein Briefing in <code>data/briefings/</code>. Erst
@@ -34,11 +45,31 @@ const dateLabel = briefing
     </p>
   )}
 
+  {briefing && (
+    <nav class="toc" aria-label="Inhaltsverzeichnis">
+      <p class="toc__label">Inhalt</p>
+      <div class="toc__groups">
+        {Object.entries(groups).map(([region, topics]) => (
+          <div class="toc__group">
+            <p class="toc__region">{REGION_LABELS[region] ?? region}</p>
+            <ul class="toc__list">
+              {Object.entries(topics).map(([topic]) => (
+                <li>
+                  <a href={`#${region}-${topic}`}>{TOPIC_LABELS[topic] ?? topic}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </nav>
+  )}
+
   {Object.entries(groups).map(([region, topics]) => (
     <section class="region">
       <h2 class="region__title">{REGION_LABELS[region] ?? region}</h2>
       {Object.entries(topics).map(([topic, items]) => (
-        <div class="topic">
+        <div class="topic" id={`${region}-${topic}`}>
           <h3 class="topic__title">{TOPIC_LABELS[topic] ?? topic}</h3>
           <ol class="items">
             {items.map((item) => (

@@ -132,6 +132,78 @@ main {
   font-size: clamp(2rem, 4vw, 3.5rem);
 }
 
+.intro-box {
+  margin-bottom: 3rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+.intro-box__label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+.intro-box__text {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 70ch;
+}
+
+.toc {
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.toc__label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--muted-foreground);
+  margin: 0 0 1rem;
+}
+.toc__groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem 4rem;
+}
+.toc__region {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: var(--tracking-tight);
+  margin: 0 0 0.6rem;
+}
+.toc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.toc__list a {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 150ms var(--ease), color 150ms var(--ease);
+}
+.toc__list a:hover,
+.toc__list a:focus-visible {
+  color: var(--foreground);
+  background-size: 100% 1px;
+}
+
 .region {
   padding-top: 3rem;
   margin-top: 3rem;

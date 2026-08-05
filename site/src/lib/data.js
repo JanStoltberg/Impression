@@ -37,6 +37,17 @@ export const TOPIC_LABELS = {
   kreativ: 'Kreation & Kampagnen',
 };
 
+function orderByLabelKeys(obj, labels) {
+  const ordered = {};
+  for (const key of Object.keys(labels)) {
+    if (obj[key]) ordered[key] = obj[key];
+  }
+  for (const key of Object.keys(obj)) {
+    if (!(key in ordered)) ordered[key] = obj[key];
+  }
+  return ordered;
+}
+
 export function groupByRegionAndTopic(items) {
   const groups = {};
   for (const item of items) {
@@ -45,15 +56,12 @@ export function groupByRegionAndTopic(items) {
     groups[item.region][item.topic].push(item);
   }
 
-  // Reihenfolge der REGION_LABELS ist die Anzeige-Reihenfolge (DACH vor
-  // International), unabhaengig davon, in welcher Reihenfolge die Artikel
-  // in den Rohdaten stehen.
-  const ordered = {};
-  for (const region of Object.keys(REGION_LABELS)) {
-    if (groups[region]) ordered[region] = groups[region];
-  }
-  for (const region of Object.keys(groups)) {
-    if (!(region in ordered)) ordered[region] = groups[region];
+  // Reihenfolge der REGION_LABELS/TOPIC_LABELS ist die Anzeige-Reihenfolge
+  // (z.B. DACH vor International, Adtech vor Marketing), unabhaengig davon,
+  // in welcher Reihenfolge die Artikel in den Rohdaten stehen.
+  const ordered = orderByLabelKeys(groups, REGION_LABELS);
+  for (const region of Object.keys(ordered)) {
+    ordered[region] = orderByLabelKeys(ordered[region], TOPIC_LABELS);
   }
   return ordered;
 }
