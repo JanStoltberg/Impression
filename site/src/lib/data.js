@@ -44,7 +44,18 @@ export function groupByRegionAndTopic(items) {
     groups[item.region][item.topic] ??= [];
     groups[item.region][item.topic].push(item);
   }
-  return groups;
+
+  // Reihenfolge der REGION_LABELS ist die Anzeige-Reihenfolge (DACH vor
+  // International), unabhaengig davon, in welcher Reihenfolge die Artikel
+  // in den Rohdaten stehen.
+  const ordered = {};
+  for (const region of Object.keys(REGION_LABELS)) {
+    if (groups[region]) ordered[region] = groups[region];
+  }
+  for (const region of Object.keys(groups)) {
+    if (!(region in ordered)) ordered[region] = groups[region];
+  }
+  return ordered;
 }
 
 const SUMMARY_MAX_LENGTH = 180;
