@@ -11,6 +11,13 @@ import {
 const briefing = loadLatestBriefing();
 const groups = briefing ? groupByRegionAndTopic(briefing.items) : {};
 
+const LATEST_COUNT = 6;
+const latestItems = briefing
+  ? [...briefing.items]
+      .sort((a, b) => new Date(b.published || 0) - new Date(a.published || 0))
+      .slice(0, LATEST_COUNT)
+  : [];
+
 const dateLabel = briefing
   ? new Date(briefing.date).toLocaleDateString('de-DE', {
       weekday: 'long',
@@ -45,9 +52,31 @@ const introText = 'Hallo zusammen, hier kommt das Morning-Briefing zum Mittwoch!
     </p>
   )}
 
+  {latestItems.length > 0 && (
+    <section class="latest-box" id="latest-news">
+      <p class="latest-box__label">Latest News</p>
+      <ol class="latest-list">
+        {latestItems.map((item) => (
+          <li class="latest-list__item">
+            <a href={item.url} target="_blank" rel="noopener">{item.title}</a>
+            <span class="latest-list__meta">
+              {item.source}
+              {item.published
+                ? ` · ${new Date(item.published).toLocaleDateString('de-DE')}`
+                : ''}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
   {briefing && (
     <nav class="toc" aria-label="Inhaltsverzeichnis">
       <p class="toc__label">Inhalt</p>
+      {latestItems.length > 0 && (
+        <p class="toc__top-link"><a href="#latest-news">Latest News</a></p>
+      )}
       <div class="toc__groups">
         {Object.entries(groups).map(([region, topics]) => (
           <div class="toc__group">
