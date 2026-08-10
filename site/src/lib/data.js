@@ -68,15 +68,27 @@ export function groupByRegionAndTopic(items) {
 
 const SUMMARY_MAX_LENGTH = 180;
 
+const HTML_ENTITIES = {
+  '&nbsp;': ' ',
+  '&amp;': '&',
+  '&quot;': '"',
+  '&#0?39;': "'",
+  '&#8216;': '‘',
+  '&#8217;': '’',
+  '&#8220;': '“',
+  '&#8221;': '”',
+  '&#8211;': '–',
+  '&#8212;': '—',
+  '&#8230;': '…',
+  '&hellip;': '…',
+};
+
 function stripHtml(raw) {
-  return raw
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#0?39;/g, "'")
-    .replace(/\s+/g, ' ')
-    .trim();
+  let text = raw.replace(/<[^>]*>/g, ' ');
+  for (const [entity, char] of Object.entries(HTML_ENTITIES)) {
+    text = text.replace(new RegExp(entity, 'g'), char);
+  }
+  return text.replace(/\s+/g, ' ').trim();
 }
 
 function truncate(text, maxLength) {

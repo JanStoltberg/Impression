@@ -52,25 +52,6 @@ const introText = 'Hallo zusammen, hier kommt das Morning-Briefing zum Mittwoch!
     </p>
   )}
 
-  {latestItems.length > 0 && (
-    <section class="latest-box" id="latest-news">
-      <p class="latest-box__label">Latest News</p>
-      <ol class="latest-list">
-        {latestItems.map((item) => (
-          <li class="latest-list__item">
-            <a href={item.url} target="_blank" rel="noopener">{item.title}</a>
-            <span class="latest-list__meta">
-              {item.source}
-              {item.published
-                ? ` · ${new Date(item.published).toLocaleDateString('de-DE')}`
-                : ''}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </section>
-  )}
-
   {briefing && (
     <nav class="toc" aria-label="Inhaltsverzeichnis">
       <p class="toc__label">Inhalt</p>
@@ -92,6 +73,31 @@ const introText = 'Hallo zusammen, hier kommt das Morning-Briefing zum Mittwoch!
         ))}
       </div>
     </nav>
+  )}
+
+  {latestItems.length > 0 && (
+    <section class="latest-box" id="latest-news">
+      <p class="latest-box__label">Latest News</p>
+      <ol class="latest-list">
+        {latestItems.map((item, i) => (
+          <li class="latest-list__item">
+            <span class="latest-list__index">{String(i + 1).padStart(2, '0')}</span>
+            <div class="latest-list__content">
+              <a class="latest-list__title" href={item.url} target="_blank" rel="noopener">
+                {item.title}
+              </a>
+              {getSummary(item) && <p class="latest-list__summary">{getSummary(item)}</p>}
+              <p class="latest-list__meta">
+                {item.source}
+                {item.published
+                  ? ` · ${new Date(item.published).toLocaleDateString('de-DE')}`
+                  : ''}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
   )}
 
   {Object.entries(groups).map(([region, topics]) => (
